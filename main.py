@@ -1,13 +1,16 @@
 import streamlit as st
+import sqlite3
 from datetime import datetime
 
 class Journal():
     def __init__(self):
-        self.journal_entries = []
+        self.connection = sqlite3.connect("database.db")
 
     def add_journal(self, get_timestamp, get_diary):
-        entry = {"Timestamp" : get_timestamp, "Diary" : get_diary}
-        self.journal_entries.append(entry)
+        with sqlite3.connect("database.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO Diary VALUES (?,?)", (get_timestamp, get_diary))
+            conn.commit()
 
     def view_journal(self):
         st.markdown(
@@ -16,12 +19,11 @@ class Journal():
         "</div>",
         unsafe_allow_html=True)
 
-        for index, item in enumerate(self.journal_entries):
-            timestamp = item["Timestamp"]
-            diary = item["Diary"]
-
-            st.write(f"{timestamp}: \n{diary}\n")
-            st.button(f"Delete", key=f"delete_{index}", on_click=self.delete_journal, args=(index,))
+        with sqlite3.connect("database.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM Diary")
+            result = cursor.fetchall()
+            return result
 
     def delete_journal(self, index):
         if 0 <= index < len(self.journal_entries):
@@ -57,7 +59,12 @@ def Frontend():
         view_clicked = st.button("View Entry")
 
         if view_clicked:
-            st.session_state.journal.view_journal()
+            journal_entries = st.session_state.journal.view_journal()
+            if journal_entries:
+                for journal_entry in journal_entries:
+                    st.write(f"{journal_entry[0]}: {journal_entry[1]}")
+            else:
+                st.write("No entries found")
 
 
 if __name__ == "__main__":
