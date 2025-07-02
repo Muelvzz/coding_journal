@@ -3,13 +3,22 @@ import sqlite3
 from datetime import datetime
 
 class Journal():
-    def __init__(self):
-        self.connection = sqlite3.connect("database.db")
 
+    # To be honest, this feels wrong to have this code pass
+    def __init__(self):
+        pass
+
+    """ Since this program uses sqlite as a database. You have to create your own sqlite database. make sure that your sqlite table contains this following columns:
+            id - integer, auto-increment, primary key
+            date - text
+            journal - text"""
     def add_journal(self, get_timestamp, get_diary):
         with sqlite3.connect("database.db") as conn:
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO Diary VALUES (?,?)", (get_timestamp, get_diary))
+
+            #Always specify the column names in your INSERT statement when not providing all columns, especially when using auto-increment primary keys.
+
+            cursor.execute("INSERT INTO diaries (date, journal) VALUES (?, ?)", (get_timestamp, get_diary))
             conn.commit()
 
     def view_journal(self):
@@ -21,15 +30,16 @@ class Journal():
 
         with sqlite3.connect("database.db") as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM Diary")
+            cursor.execute("SELECT * FROM diaries")
             result = cursor.fetchall()
             return result
 
-    def delete_journal(self, index):
-        if 0 <= index < len(self.journal_entries):
-            deleted_entry = self.journal_entries.pop(index)
-        else:
-            st.write("Invalid entry index")
+    """ There is some errors into this, a small minor issue and that is if you are going to delete an entry. You have to press it twice so that it will change. I've tried adding experimental rerun() into this to fix it. But streamlit produces an error saying that there no such thing as that function (my streamlit is up-to-date btw.)"""
+    def delete_journal(self, get_id):
+        with sqlite3.connect("database.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM diaries WHERE id = ?", (get_id,))
+            conn.commit()
     
 
 def Frontend():
@@ -47,24 +57,37 @@ def Frontend():
     if "journal" not in st.session_state:
         st.session_state.journal = Journal()
 
-    l, r = st.columns(2)
-    with l:
-        add_clicked = st.button("Add Entry")
-        
-        if add_clicked:
-            st.session_state.journal.add_journal(current_time, diary)
-            st.success("Entry Added")
+    if "view_mode" not in st.session_state:
+        st.session_state.view_mode = False
 
-    with r:
-        view_clicked = st.button("View Entry")
 
-        if view_clicked:
-            journal_entries = st.session_state.journal.view_journal()
-            if journal_entries:
-                for journal_entry in journal_entries:
-                    st.write(f"{journal_entry[0]}: {journal_entry[1]}")
-            else:
-                st.write("No entries found")
+    add_clicked = st.button("Add Entry")
+    
+    if add_clicked:
+        st.session_state.journal.add_journal(current_time, diary)
+        st.success("Entry Added")
+        st.session_state.view_mode = False
+
+    view_clicked = st.button("View Entry")
+    if view_clicked:
+        st.session_state.view_mode = True
+
+    if st.session_state.view_mode:
+        journal_entries = st.session_state.journal.view_journal()
+        if journal_entries:
+            for journal_entry in journal_entries:
+                id = journal_entry[0]
+
+                st.markdown(f"<b>{journal_entry[1]}:</b>", unsafe_allow_html=True)
+                st.write(f"{journal_entry[2]}")
+                
+                delete_clicked = st.button("Delete", key=f"delete_{id}")
+
+                if delete_clicked:
+                    st.session_state.journal.delete_journal(id)
+
+        else:
+            st.write("No entries found")
 
 
 if __name__ == "__main__":
