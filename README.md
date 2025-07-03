@@ -9,7 +9,7 @@ Please download these following libraries for the program to work
 * sqlite3
 
 ## Important Notice
-Please remember, the program is still small and I know that I haven't done something compelling with this program, but I hope that by doing this. I get to improve my craft of coding as I create more and more projects.
+Please remember, the program is still small and I know that I haven't done something compelling with this program, but I hope that by doing this. I get to improve my craft of coding as I create more and more projects. There is always a room for improvement and this is certainly one of them - in fact, I am adding this section right now to tell you on some features that I want to add on to this besides that missing "edit" feature
 
 If you have any comments and suggestions. Please let me know, at my TikTok, Linkedin, Facebook or Instagram:
 Tiktok: https://www.tiktok.com/@muelvz?_t=ZS-8xgT713yjSR&_r=1
