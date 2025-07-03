@@ -1,6 +1,8 @@
 import streamlit as st
 import sqlite3
 from datetime import datetime
+from nltk.sentiment import SentimentIntensityAnalyzer
+import plotly.express as px
 
 class Journal():
 
@@ -40,6 +42,29 @@ class Journal():
             cursor = conn.cursor()
             cursor.execute("DELETE FROM diaries WHERE id = ?", (get_id,))
             conn.commit()
+
+    def graphing(self):
+
+        analyzer = SentimentIntensityAnalyzer()
+        date_list = []
+        diary_list = []
+
+        with sqlite3.connect("database.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT date, journal FROM diaries")
+            result = cursor.fetchall()
+
+            for data in result:
+                scores = analyzer.polarity_scores(data[1])
+                overall_score = scores["compound"]
+
+                date_list.append(data[0])
+                diary_list.append(overall_score)
+
+            figure = px.line(x=date_list, y=diary_list, labels={"x" : "Dates", "y" : "Scores"})
+            st.plotly_chart(figure)
+
+            return figure
     
 
 def Frontend():
@@ -75,9 +100,10 @@ def Frontend():
     if st.session_state.view_mode:
         journal_entries = st.session_state.journal.view_journal()
         if journal_entries:
-            for journal_entry in journal_entries:
+            for index, journal_entry in enumerate(journal_entries, start=1):
                 id = journal_entry[0]
 
+                st.markdown(f"<h3>Day {index}:</h3>", unsafe_allow_html=True)
                 st.markdown(f"<b>{journal_entry[1]}:</b>", unsafe_allow_html=True)
                 st.write(f"{journal_entry[2]}")
                 
@@ -88,6 +114,16 @@ def Frontend():
 
         else:
             st.write("No entries found")
+
+    graph_clicked = st.button("Analyze your Journal?")
+    if graph_clicked:
+        st.markdown(
+        "<div style='text-align: center;'>"
+        "<h1>Graphing</h1>"
+        "</div>",
+        unsafe_allow_html=True)
+
+        st.session_state.journal.graphing()
 
 
 if __name__ == "__main__":
