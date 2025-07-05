@@ -1,5 +1,6 @@
 import streamlit as st
 import sqlite3
+import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import plotly.express as px
 import os
