@@ -2,6 +2,22 @@ import streamlit as st
 import sqlite3
 from nltk.sentiment import SentimentIntensityAnalyzer
 import plotly.express as px
+import os
+
+
+DB_PATH = "database.db"
+
+if not os.path.exists(DB_PATH):
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE diaries (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                date TEXT,
+                journal TEXT
+            )
+        """)
+        conn.commit()
 
 class Journal():
 
