@@ -7,6 +7,9 @@ import os
 
 DB_PATH = "database.db"
 
+nltk.download('punkt')
+nltk.download('vader_lexicon')
+
 if not os.path.exists(DB_PATH):
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
