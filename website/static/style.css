@@ -5,12 +5,13 @@
 
 body {
     min-height: 100vh;
-
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/* NAVIGATION SECTION */
 
 nav {
     background-color: #3E5F44;
@@ -63,6 +64,8 @@ nav li:first-child{
     justify-content: flex-start;
 }
 
+/* SIDEBAR SECTION */
+
 .sidebar li {
     width: 100%;
 }
@@ -74,6 +77,14 @@ nav li:first-child{
 .menu-button {
     display: none;
 }
+
+/* add_journal.html */
+
+.add-journal-form {
+    align-self: center;
+}
+
+/* *********************** */
 
 @media(max-width: 800px){
     .hideOnMobile{
