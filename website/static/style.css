@@ -78,12 +78,6 @@ nav li:first-child{
     display: none;
 }
 
-/* add_journal.html */
-
-.add-journal-form {
-    align-self: center;
-}
-
 /* *********************** */
 
 @media(max-width: 800px){
