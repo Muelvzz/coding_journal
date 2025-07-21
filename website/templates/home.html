@@ -1,1 +1,31 @@
 {% extends 'base.html' %}
+{% block content %}
+    <h1 class="text-center">{% block header %}Journals{% endblock %}</h1>
+    <div id="journals" class="container">
+        {% for journal in journals %}
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <a href="/journals/{{ journal.user.username }}">{{ journal.user.username }}</a>
+                    {% if user.id == journal.author %}
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton{{ journal.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                Actions
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton{{ journal.id }}">
+                                <li><a href="/delete-journal/{{ journal.id }}" class="dropdown-item">Delete</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5>{{ journal.title }}</h5>
+                    <p class="card-text">{{ journal.content }}</p>
+                    <div class="card-footer text-muted">
+                        {{ journal.date_created }}
+                    </div>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}
