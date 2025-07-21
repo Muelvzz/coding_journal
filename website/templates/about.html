@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container my-5">
+        <h1 class="text-center mb-4">About</h1>
+        
+        <div class="mb-4">
+            <p>
+                Hey there! Thanks so much for visiting this website. It hasn’t always looked like this—
+                before diving into web development, I used a Python library called <strong>Streamlit</strong>
+                to build and display my projects. I stuck with that framework for a couple of weeks until I
+                decided to level up and transition to more robust and flexible tools.
+            </p>
+            <p>
+                That step-up brought me to <strong>Flask</strong>, and this website is the result of that journey.
+                In fact, here's what the coding journal looked like when I was still using Streamlit:
+            </p>
+        </div>
+
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='images/coding_journal_old.webp') }}" 
+                 alt="Coding Journal using Streamlit"
+                 class="img-fluid rounded shadow"
+                 style="max-width: 100%; height: auto;">
+        </div>
+    </div>
+{% endblock %}

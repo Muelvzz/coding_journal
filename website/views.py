@@ -12,3 +12,7 @@ def home():
 @login_required
 def add_journal():
     return render_template("add_journal.html")
+
+@views.route("/about")
+def about():
+    return render_template("about.html")
