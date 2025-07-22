@@ -95,14 +95,34 @@
     </footer>
 
     <script>
+
         function showSidebar(){
             const sidebar = document.querySelector(".sidebar")
             sidebar.style.display = "flex"
         }
+
         function hideSidebar(){
             const sidebar = document.querySelector(".sidebar")
             sidebar.style.display = "none"
         }
+
+        function search(){
+          const query = document.getElementById("search-box").value.toLowerCase();
+          const cards = document.querySelectorAll("#journals .card");
+
+          cards.forEach(card => {
+            const titleElement = card.querySelector("h5");
+            const title = titleElement ? titleElement.textContent.toLowerCase() : "";
+
+            if (title.includes(query)) {
+              card.style.display = "block";
+            }
+            else {
+              card.style.display = "none"
+            }
+          });
+        }
+        
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
