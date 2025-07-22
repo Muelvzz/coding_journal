@@ -8,11 +8,9 @@
                     <a href="/journals/{{ journal.user.username }}">{{ journal.user.username }}</a>
                     {% if user.id == journal.author %}
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton{{ journal.id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                Actions
-                            </button>
+                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton{{ journal.id }}" data-bs-toggle="dropdown" aria-expanded="false"></button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton{{ journal.id }}">
-                                <li><a href="/delete-journal/{{ journal.id }}" class="dropdown-item">Delete</a></li>
+                                <li><a href="/delete/{{ journal.id }}" class="dropdown-item"><span class="material-symbols-outlined">delete</span></a></li>
                             </ul>
                         </div>
                     {% endif %}

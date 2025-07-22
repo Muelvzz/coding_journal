@@ -36,6 +36,18 @@ def add_journal():
 
     return render_template("add_journal.html", user=current_user)
 
+@views.route("/delete/<get_id>")
+def delete_journal(get_id):
+
+    journal = Journal.query.filter_by(id=get_id).first()
+
+    db.session.delete(journal)
+    db.session.commit()
+
+    flash("Post successfully deleted", category="success")
+
+    return redirect(url_for("views.home"))
+
 @views.route("/about")
 def about():
     return render_template("about.html")
