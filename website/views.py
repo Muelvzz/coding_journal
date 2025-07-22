@@ -48,6 +48,15 @@ def delete_journal(get_id):
 
     return redirect(url_for("views.home"))
 
+@views.route("/journ/<get_username>")
+@login_required
+def load_user_journal(get_username):
+
+    user = User.query.filter_by(username=get_username).first()
+    journals = Journal.query.filter_by(author=user.id).all()
+
+    return render_template("journ.html", user=current_user, journals=journals, username=user.username)
+
 @views.route("/about")
 def about():
     return render_template("about.html")

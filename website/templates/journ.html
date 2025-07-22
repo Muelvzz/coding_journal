@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 class="text-center">{% block header %}Journals{% endblock %}</h1>
+    <h1 class="text-center">{{ username }}'s Journals</h1>
     <div id="journals" class="container">
         {% for journal in journals %}
             <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <a href="/journ/{{ journal.user.username }}">{{ journal.user.username }}</a>
+                    <b>{{ journal.user.username }}</b>
                     {% if user.id == journal.author %}
                         <div class="dropdown">
                             <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton{{ journal.id }}" data-bs-toggle="dropdown" aria-expanded="false"></button>
