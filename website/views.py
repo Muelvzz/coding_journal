@@ -2,6 +2,7 @@ from flask import Flask, render_template, Blueprint, request, flash, redirect, u
 from flask_login import login_required, current_user
 from .models import User, Journal
 from . import db
+from nltk.sentiment import SentimentIntensityAnalyzer
 
 views = Blueprint("views", __name__)
 
@@ -16,6 +17,7 @@ def home():
 @views.route("/add", methods=["POST", "GET"])
 @login_required
 def add_journal():
+    analyzer = SentimentIntensityAnalyzer()
 
     if request.method == "POST":
         title = request.form.get("text_title")
@@ -28,7 +30,10 @@ def add_journal():
             flash("Your post lacks a content", category="error")
 
         else:
-            journal = Journal(content=content, title=title, author=current_user.id)
+            score = analyzer.polarity_scores(content)
+            analysis = score["compound"]
+
+            journal = Journal(content=content, title=title, author=current_user.id, analysis=analysis)
             db.session.add(journal)
             db.session.commit()
 
@@ -55,7 +60,15 @@ def load_user_journal(get_username):
     user = User.query.filter_by(username=get_username).first()
     journals = Journal.query.filter_by(author=user.id).all()
 
-    return render_template("journ.html", user=current_user, journals=journals, username=user.username)
+    journal_analysis = [data.analysis for data in journals]
+    date_entries = [data.date_created.strftime(r"%Y-%m-%d") for data in journals]
+
+    return render_template("journ.html",
+                            user=current_user,
+                            journals=journals,
+                            username=user.username,
+                            date_entries=date_entries,
+                            journal_analysis=journal_analysis)
 
 @views.route("/about")
 def about():

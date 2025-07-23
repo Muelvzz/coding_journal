@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 class="text-center" id="page-title">Journals</h1>
+    <h1 class="text-center" id="page-title">CodingJourn</h1>
 
     <div class="search-wrapper">
         <div class="search-container">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="card-body">
                     <h5>{{ journal.title }}</h5>
-                    <p class="card-text">{{ journal.content }}</p>
+                    <p class="card-text" id="journal-content">{{ journal.content }}</p>
                     <div class="card-footer text-muted">
                         {{ journal.date_created }}
                     </div>

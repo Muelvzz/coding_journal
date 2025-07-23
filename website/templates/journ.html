@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1 class="text-center" id="page-title">{{ username }}'s Journals</h1>
-
     <div class="search-wrapper">
         <div class="search-container">
             <input type="text" id="search-box" placeholder="Search...">
             <button id="search-btn" onclick="search()">Search</button>
         </div>
     </div>
+
+    <h2 class="text-center">Analysis</h2>   
+
+    <div id="chartWrapper">
+        <canvas id="lineChart"></canvas>
+        <script>
+            const dateEntries = {{ date_entries | tojson}};
+            const journalAnalysis = {{ journal_analysis | tojson }};
+        </script>
+    </div>
+    <br>
 
     <div id="journals" class="container">
         {% for journal in journals|reverse %}
