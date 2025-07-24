@@ -100,6 +100,21 @@ nav li:first-child{
     display: none;
 }
 
+.password-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+input[type="password"], input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+
 /* WEBPAGE TITLE */
 
 #page-title {

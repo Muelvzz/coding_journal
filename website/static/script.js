@@ -43,3 +43,14 @@ const lineChart = new Chart(ctx, {
         maintainAspectRatio: false
     }
 });
+
+const passwordInput = document.getElementById('password');
+const togglePasswordButton = document.getElementById('togglePassword');
+
+togglePasswordButton.addEventListener('click', () => {
+  const type = passwordInput.type === 'password' ? 'text' : 'password';
+  passwordInput.type = type;
+
+  // Change button text
+  togglePasswordButton.textContent = type === 'password' ? 'Show' : 'Hide';
+});
