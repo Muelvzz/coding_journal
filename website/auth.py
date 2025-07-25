@@ -31,10 +31,10 @@ def login():
 def sign_up():
 
     if request.method == "POST":
-        email = request.form.get("email")
-        username = request.form.get("username")
-        password1 = request.form.get("password1")
-        password2 = request.form.get("password2")
+        email = request.form.get("email", "")
+        username = request.form.get("username", "")
+        password1 = request.form.get("password1", "")
+        password2 = request.form.get("password2", "")
 
         email_exist = User.query.filter_by(email=email).first()
         username_exist = User.query.filter_by(username=username).first()
@@ -43,13 +43,14 @@ def sign_up():
             flash("Email already exist", category="error")
         elif username_exist:
             flash(f"{username} is already in use", category="error")
-        if password1 != password2:
+        elif password1 != password2:
             flash("Password doesn't match", category="error")
-
+        elif not password1 or not password2:
+            flash("Password fields cannot be empty", category="error")
         elif len(username) < 4:
-            flash("Username is too short", category="error")
+            flash("Username must be at least five characters long", category="error")
         elif len(password1) < 8:
-            flash("Password is too short", category="error")
+            flash("Password must be at least eight characters long", category="error")
         else:
             new_user = User(email=email,
                             username=username,
