@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 align="center">Updating Journal</h1>
+        <form method="post" class="container">
+            <div class="form-group">
+                <label for="update_text_title"></label>
+                <input type="text" name="update_text_title" id="update_text_title" placeholder="Update your title here" value="{{ title }}" class="form-control" required>
+                <label for="update_text"></label>
+                <textarea name="update_text" id="update_text" rows="9" placeholder="Update your jounal content here" class="form-control" required>{{ content }}</textarea>
+                <br>
+                <div align="center">
+                    <button class="btn btn-lg btn-primary" type="submit">Add</button>
+                </div>
+            </div>
+        </form>
+        <br>
+{% endblock %}

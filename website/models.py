@@ -13,8 +13,8 @@ class User(db.Model, UserMixin):
 
 class Journal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Text, nullable=False)
-    content = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text)
+    content = db.Column(db.Text)
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     analysis = db.Column(db.Float, nullable=False)
     keywords = db.Column(db.Text)

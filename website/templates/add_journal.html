@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 align="center">Adding Journal</h1>
+    <h1 align="center">Adding Journal</h1>
         <form method="post" class="container">
             <div class="form-group">
                 <label for="text_title"></label>
-                <input type="text" name="text_title" id="text_title" placeholder="Enter your title" class="form-control">
+                <input type="text" name="text_title" id="text_title" placeholder="Enter your title" class="form-control" required>
                 <label for="text"></label>
-                <textarea name="text" id="text" rows="9" placeholder="Write your journal" class="form-control"></textarea>
+                <textarea name="text" id="text" rows="9" placeholder="Write your journal" class="form-control" required></textarea>
                 <br>
                 <div align="center">
                     <button class="btn btn-lg btn-primary" type="submit">Add</button>

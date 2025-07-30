@@ -60,9 +60,31 @@ def delete_journal(get_id):
     db.session.delete(journal)
     db.session.commit()
 
-    flash("Post successfully deleted", category="success")
+    flash("Journal successfully deleted", category="success")
 
     return redirect(url_for("views.home"))
+
+@views.route("update/<get_id>", methods=["POST", "GET"])
+def update_journal(get_id):
+
+    journal = Journal.query.filter_by(id=get_id).first()
+
+    if request.method == "POST":
+        update_title = request.form.get("update_text_title")
+        update_text = request.form.get("update_text")
+
+        journal.title = update_title
+        journal.content = update_text
+
+        db.session.commit()
+
+        flash("Journal updated", category="success")
+
+        return redirect(url_for("views.home"))
+    
+    return render_template("update_journ.html",
+                            title=journal.title,
+                            content=journal.content)
 
 @views.route("/journ/<get_username>")
 @login_required
