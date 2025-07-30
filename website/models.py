@@ -17,4 +17,5 @@ class Journal(db.Model):
     content = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
     analysis = db.Column(db.Float, nullable=False)
+    keywords = db.Column(db.Text)
     author = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)

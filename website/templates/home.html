@@ -7,6 +7,14 @@
             <input type="text" id="search-box" placeholder="Search...">
             <button id="search-btn" onclick="search()">Search</button>
         </div>
+        <div class="btn-group ms-2">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="search-filter" data-bs-toggle="dropdown" aria-expanded="false"></button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="search-filter">
+                <li><a class="dropdown-item" href="#">Last three days</a></li>
+                <li><a class="dropdown-item" href="#">Last week</a></li>
+                <li><a class="dropdown-item" href="#">Last month</a></li>
+            </ul>
+        </div>
     </div>
 
     <div id="journals" class="container">
@@ -29,6 +37,7 @@
                     <div class="card-footer text-muted">
                         {{ journal.date_created }}
                     </div>
+                    <i><b>Keywords: </b></i><u>{{ journal.keywords }}</u></i>
                 </div>
             </div>
             <br>

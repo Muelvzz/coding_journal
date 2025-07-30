@@ -92,7 +92,7 @@ def user_verify():
 
             print(f"The second print {code}")
 
-            if get_user_code == code:
+            if int(get_user_code) == code:
                 receiver_email = session["email"]
                 receiver_password = session["password"]
                 receiver_username = session["username"]

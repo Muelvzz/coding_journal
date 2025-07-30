@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from .models import User, Journal
 from . import db
 from nltk.sentiment import SentimentIntensityAnalyzer
+from rake_nltk import Rake
 
 views = Blueprint("views", __name__)
 
@@ -30,10 +31,20 @@ def add_journal():
             flash("Your post lacks a content", category="error")
 
         else:
+            rake = Rake()
+
+            # Analyzing Journal Content
             score = analyzer.polarity_scores(content)
             analysis = score["compound"]
 
-            journal = Journal(content=content, title=title, author=current_user.id, analysis=analysis)
+            # Identifying Keyword of Journal
+            content = content.replace("(","").replace(")","")
+            rake.extract_keywords_from_text(content)
+            get_keywords = rake.get_ranked_phrases()
+            sorted_keywords = set([keyword for keyword in get_keywords if len(keyword.split()) > 1])
+            keywords = ", ".join(sorted_keywords)
+
+            journal = Journal(content=content, title=title, author=current_user.id, analysis=analysis, keywords=keywords)
             db.session.add(journal)
             db.session.commit()
 
