@@ -5,6 +5,7 @@ from . import db
 from flask_login import login_user, current_user, login_required, logout_user
 import smtplib
 import random
+import os
 
 auth = Blueprint("auth", __name__)
 
@@ -59,7 +60,7 @@ def sign_up():
             session["password"] = password2
 
             random_code = random.randint(100000, 999999)
-            sender_email = "muelvinlopez25@gmail.com"
+            sender_email = os.getenv("EMAIL")
 
             subject = "Code Verification for CodingJourn"
             message = f"Thanks for logging in on my website. Your verification code is {random_code}"
